@@ -32,3 +32,7 @@ This repository accepts features and improvements.
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## References
+
+* [C4-PlantUML](https://github.com/RicardoNiepel/C4-PlantUML)
