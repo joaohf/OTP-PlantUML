@@ -1,0 +1,10 @@
+@startuml
+!include https://raw.githubusercontent.com/joaohf/OTP-PlantUML/master/OTP.iuml
+' uncomment the following line and comment the first to use locally
+' !include OTP.iuml
+
+Supervisor(base_sup, "base_sup", "one_for_one")
+
+Supervisor(base, "Base", "one_for_one, 5, 3600", "First supervisor")
+
+@enduml

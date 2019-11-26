@@ -3,13 +3,10 @@
 ' uncomment the following line and comment the first to use locally
 ' !include OTP.iuml
 
-Supervisor(base, "Base", "one_for_one")
 GenServer(base_server, "Base.Server")
 Agent(base_report, "Base.Report")
-TaskSupervisor(base_supervisor, "Base.Supervisor")
 
-Rel(base, base_server)
-Rel(base, base_report)
-Rel(base, base_supervisor)
+GenStatem(fsm_server, "fsm_server")
+GenEvent(event_server, "event_server")
 
 @enduml
