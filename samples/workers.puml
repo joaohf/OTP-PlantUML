@@ -1,7 +1,7 @@
 @startuml
-!include https://raw.githubusercontent.com/joaohf/OTP-PlantUML/master/OTP.iuml
+!include https://raw.githubusercontent.com/joaohf/OTP-PlantUML/master/OTP_SupervisorTree.iuml
 ' uncomment the following line and comment the first to use locally
-' !include OTP.iuml
+' !include OTP_SupervisorTree.iuml
 
 GenServer(base_server, "Base.Server")
 Agent(base_report, "Base.Report")

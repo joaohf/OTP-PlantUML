@@ -1,0 +1,18 @@
+@startuml
+!include https://raw.githubusercontent.com/joaohf/OTP-PlantUML/master/OTP_Sequence.iuml
+' uncomment the following line and comment the first to use locally
+' !include OTP_Sequence.iuml
+
+GenServer(base_server, "Base.Server")
+GenServer(top_server, "Top.Server")
+
+call(base_server, top_server, "init")
+call_return(top_server, base_server, "ok")
+
+call(base_server, top_server, "init2", "ok")
+
+info(base_server, top_server, "test")
+
+cast(base_server, top_server, "stop")
+
+@enduml
