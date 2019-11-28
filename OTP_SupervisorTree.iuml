@@ -1,0 +1,66 @@
+' OTP_SupervisorTree, version 0.1.0
+' https://github.com/joaohf/OTP-PlantUML
+
+' Colors
+' #################################
+
+!define ELEMENT_FONT_COLOR #FFFFFF
+!define SUPERVISOR_BG_COLOR #438DD5
+!define WORKER_BG_COLOR #08427B
+
+' Styling
+' #################################
+
+!define TECHN_FONT_SIZE 12
+
+skinparam defaultTextAlignment center
+
+skinparam usecase<<supervisor>> {
+    StereotypeFontColor ELEMENT_FONT_COLOR
+    FontColor ELEMENT_FONT_COLOR
+    BackgroundColor SUPERVISOR_BG_COLOR
+    BorderColor #3C7FC0
+}
+
+skinparam usecase<<worker>> {
+    StereotypeFontColor ELEMENT_FONT_COLOR
+    FontColor ELEMENT_FONT_COLOR
+    BackgroundColor WORKER_BG_COLOR
+    BorderColor #073B6F
+}
+
+' Layout
+' #################################
+
+
+' Supervisor
+' #################################
+
+!define Supervisor(e_alias, e_label) usecase "==e_label" <<supervisor>> as e_alias
+!define Supervisor(e_alias, e_label, e_techn) usecase "==e_label\n//<size:TECHN_FONT_SIZE>{e_techn}</size>//" <<supervisor>> as e_alias
+!define Supervisor(e_alias, e_label, e_techn, e_descr) usecase "==e_label\n//<size:TECHN_FONT_SIZE>{e_techn}</size>//\n\n e_descr" <<supervisor>> as e_alias
+
+' Worker
+' #################################
+
+!define Worker(e_alias, e_label) usecase "==e_label" <<worker>> as e_alias
+!define Worker(e_alias, e_label, e_techn) usecase "==e_label\n//<size:TECHN_FONT_SIZE>[e_techn]</size>//" <<worker>> as e_alias
+!define Worker(e_alias, e_label, e_techn, e_descr) usecase "==e_label\n//<size:TECHN_FONT_SIZE>[e_techn]</size>//\n\n e_descr" <<worker>> as e_alias
+
+' Servers
+' #################################
+
+!define GenServer(e_alias, e_label) Worker(e_alias, e_label, "gen_server")
+!define GenEvent(e_alias, e_label) Worker(e_alias, e_label, "gen_event")
+!define GenStatem(e_alias, e_label) Worker(e_alias, e_label, "gen_statem")
+!define Agent(e_alias, e_label) Worker(e_alias, e_label, "Agent")
+!define Task(e_alias, e_label) Worker(e_alias, e_label, "Task")
+!define Registry(e_alias, e_label) Worker(e_alias, e_label, "Registry")
+!define TaskSupervisor(e_alias, e_label) Supervisor(e_alias, e_label, "Task.Supervisor")
+
+
+' Relations
+' #################################
+
+!define Rel_(e_alias1, e_alias2, e_direction="") e_alias1 e_direction e_alias2
+!define Rel(e_from,e_to) Rel_(e_from, e_to, "--")

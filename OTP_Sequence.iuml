@@ -1,4 +1,4 @@
-' SupervisorTree, version 0.1.0
+' OTP_Sequence, version 0.1.0
 ' https://github.com/joaohf/OTP-PlantUML
 
 ' Colors
@@ -15,19 +15,21 @@
 
 skinparam defaultTextAlignment center
 
-skinparam usecase<<supervisor>> {
+skinparam participant<<supervisor>> {
     StereotypeFontColor ELEMENT_FONT_COLOR
     FontColor ELEMENT_FONT_COLOR
     BackgroundColor SUPERVISOR_BG_COLOR
     BorderColor #3C7FC0
 }
 
-skinparam usecase<<worker>> {
+skinparam participant {
     StereotypeFontColor ELEMENT_FONT_COLOR
     FontColor ELEMENT_FONT_COLOR
     BackgroundColor WORKER_BG_COLOR
     BorderColor #073B6F
 }
+
+hide footbox
 
 ' Layout
 ' #################################
@@ -36,31 +38,36 @@ skinparam usecase<<worker>> {
 ' Supervisor
 ' #################################
 
-!define Supervisor(e_alias, e_label) usecase "==e_label" <<supervisor>> as e_alias
-!define Supervisor(e_alias, e_label, e_techn) usecase "==e_label\n//<size:TECHN_FONT_SIZE>{e_techn}</size>//" <<supervisor>> as e_alias
-!define Supervisor(e_alias, e_label, e_techn, e_descr) usecase "==e_label\n//<size:TECHN_FONT_SIZE>{e_techn}</size>//\n\n e_descr" <<supervisor>> as e_alias
+!define Supervisor(e_alias, e_label) participant "e_label" <<supervisor>> as e_alias
+!define Supervisor(e_alias, e_label, e_behaviour) participant "e_label" as e_alias << e_behaviour >>
 
 ' Worker
 ' #################################
 
-!define Worker(e_alias, e_label) usecase "==e_label" <<worker>> as e_alias
-!define Worker(e_alias, e_label, e_techn) usecase "==e_label\n//<size:TECHN_FONT_SIZE>[e_techn]</size>//" <<worker>> as e_alias
-!define Worker(e_alias, e_label, e_techn, e_descr) usecase "==e_label\n//<size:TECHN_FONT_SIZE>[e_techn]</size>//\n\n e_descr" <<worker>> as e_alias
+!define Worker(e_alias, e_label) participant "e_label" <<worker>> as e_alias
+!define Worker(e_alias, e_label, e_behaviour) participant "e_label" as e_alias << e_behaviour >>
 
 ' Servers
 ' #################################
 
+!define Process(e_alias, e_label) Worker(e_alias, e_label, "process")
 !define GenServer(e_alias, e_label) Worker(e_alias, e_label, "gen_server")
 !define GenEvent(e_alias, e_label) Worker(e_alias, e_label, "gen_event")
 !define GenStatem(e_alias, e_label) Worker(e_alias, e_label, "gen_statem")
 !define Agent(e_alias, e_label) Worker(e_alias, e_label, "Agent")
 !define Task(e_alias, e_label) Worker(e_alias, e_label, "Task")
 !define Registry(e_alias, e_label) Worker(e_alias, e_label, "Registry")
-!define TaskSupervisor(e_alias, e_label) Supervisor(e_alias, e_label, "Task.Supervisor")
-
 
 ' Relations
 ' #################################
 
-!define Rel_(e_alias1, e_alias2, e_direction="") e_alias1 e_direction e_alias2
-!define Rel(e_from,e_to) Rel_(e_from, e_to, "--")
+!define msg(e_alias1, e_alias2, e_message, e_direction="") e_alias1 e_direction e_alias2 : e_message
+!define msg(e_alias1, e_alias2, e_message) msg(e_alias1, e_alias2, e_message, "->>")
+!define info(e_alias1, e_alias2, e_message) msg(e_alias1, e_alias2, e_message, "->>")
+!define cast(e_alias1, e_alias2, e_message) msg(e_alias1, e_alias2, e_message, "->>")
+!define call_return(e_from, e_to, e_message) msg(e_from, e_to, e_message, "-->")
+!define call(e_from, e_to, e_message) msg(e_from, e_to, e_message, "->")
+!definelong call(e_from, e_to, e_message, e_reply)
+msg(e_from, e_to, e_message, "->")
+call_return(e_to, e_from, e_reply)
+!enddefinelong
